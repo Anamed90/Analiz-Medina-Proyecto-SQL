@@ -96,10 +96,137 @@ FOREIGN KEY(ID_AUTO)
   ON UPDATE CASCADE
 );
 
-DROP TABLE servicio;
-DROP TABLE empleado;
-DROP TABLE horario;
-DROP TABLE producto;
-DROP TABLE venta;
+USE autolavado;
+
+INSERT INTO Cliente(ID_CLIENTE, NOMBRE_CLIENTE, APELLIDO_CLIENTE, DIRECCION_CLIENTE, TELEFONO_CLIENTE)
+VALUES
+(1,'Jose', 'Carrero', 'Cuareim 1506,apto 504', '099501988'),
+(2,'Maira', 'Rivero', 'Bvlar. Artigas 3968', '093357679'),
+(3,'Samuel', 'Medina', 'Cuareim 1506,apto 504', '096767808'),
+(4,'Analiz', 'Medina', 'La Paz 3024, apto 001', '098398048')
+;
+
+INSERT INTO Tipo_Auto(ID_TIPO, DESCRIPCION_TIPO)
+VALUES
+(1, 'Monovolumen'),
+(2, 'HatchBack'),
+(3, 'Sedan'),
+(4, 'Familiar'),
+(5, 'SUV'),
+(6,'Pickup')
+;
+
+INSERT INTO Auto(ID_AUTO, PLACA_AUTO, ID_CLIENTE, ID_TIPO)
+VALUES
+(1, 'ARJ398', 1, 1),
+(2, 'AAU386', 2, 6),
+(3, 'WAA54Z', 3, 4),
+(4, 'SAA69P', 4, 2)
+;
+
+INSERT INTO Empleado(ID_EMPLEADO, NOMBRE_EMPLEADO, APELLIDO_EMPLEADO, FUNCION_EMPLEADO, SUELDO_EMPLEADO)
+VALUES
+(1, 'Jose', 'Dirinott', 'Lavadero', '145.35'),
+(2, 'Ruben', 'Briceno', 'Lavadero', '145.35'),
+(3, 'Marcos', 'Gutierrez', 'Administrador', '340.75'),
+(4, 'Luisa', 'Salas', 'Encargada', '405.75')
+;
+
+INSERT INTO Horario(ID_HORARIO, ID_EMPLEADO, HORA_ENTRADA, HORA_SALIDA)
+VALUES
+(1, 1, CURRENT_TIME(),DATE_SUB(now(),INTERVAL 8 hour)),
+(2, 2, CURRENT_TIME(),DATE_SUB(now(),INTERVAL 8 hour)),
+(3, 3, CURRENT_TIME(),DATE_SUB(now(),INTERVAL 8 hour)),
+(4, 4, CURRENT_TIME(),DATE_SUB(now(),INTERVAL 8 hour))
+;
+
+INSERT INTO Proveedor(ID_PROVEEDOR, NOMBRE_PROVEEDOR, DIRECCION_PROVEEDOR, TELEFONO_PROVEEDOR)
+VALUES
+(1, 'Quimicos Guacara', 'Ruta 1 km 63', '29093048'),
+(2, ' Argimax', 'Av Italia 2145', '29683400'),
+(3, 'Aspiradorex', '8 de Octubre 1221', '29903455'),
+(4, 'Climatonic', 'Av Uruguay 1230', '29907766')
+;
+
+INSERT INTO Producto(ID_PRODUCTO, ID_PROVEEDOR, NOMBRE_PRODUCTO, CANTIDAD_PRODUCTO, PRECIO_PRODUCTO)
+VALUES
+(1, 1, 'Limpiador para cuero', '20', '2.50'),
+(2, 1, 'Quitamanchas', '42', '7.50'),
+(3, 2, 'Baldes', '39', '1.25'),
+(4, 2, 'Trapeador', '100', '0.55'),
+(5, 3, 'Aspiradora de mano', '2', '35.79'),
+(6, 3, 'Aspiradora industrial', '1', '123.89'),
+(7, 4, 'Ambientador para guindar', '100','0.35'),
+(8, 4, 'Ambientador para aires', '80', '1.20')
+;
+
+INSERT INTO Servicio(ID_SERVICIO, ID_TIPO, ID_PRODUCTO, DESCRIPCION_SERVICIO, COSTO_SERVICIO, PRECIO_TOTAL)
+VALUES
+(1, 1, 1, 'Limpieza de asientos y tablero', '1.50', '3.00'),
+(2, 1, 2, 'Quitamanchas en asientos de tela', '3.00', '6.00'),
+(3, 1, 3, 'Lavado externo de auto', '3.45', '6.70'),
+(4, 1, 4, 'Secado externo de auto', '3.00', '6.00'),
+(5, 1, 5, 'Aspirado de asientos de tela', '1.45', '2.90'),
+(6, 1, 6, 'Aspirado Auto completo', '4.00', '8.00'),
+(7, 1, 7, 'Ambientador económico', '0.35', '0.70'),
+(8, 1, 8, 'Ambientador premium', '1.20', '2.40'),
+(9, 2, 1, 'Limpieza de asientos y tablero', '1.80', '3.60'),
+(10, 2, 2, 'Quitamanchas en asientos de tela', '3.60', '7.20'),
+(11, 2, 3, 'Lavado externo de auto', '3.80', '7.60'),
+(12, 2, 4, 'Secado externo de auto', '4.00', '8.00'),
+(13, 2, 5, 'Aspirado de asientos de tela', '1.80', '3.60'),
+(14, 2, 6, 'Aspirado Auto completo', '4.50', '9.00'),
+(15, 2, 7, 'Ambientador económico', '0.35', '0.70'),
+(16, 2, 8, 'Ambientador premium', '1.20', '2.40'),
+(17, 3, 1, 'Limpieza de asientos y tablero', '2.10', '4.20'),
+(18, 3, 2, 'Quitamanchas en asientos de tela', '4.00', '8.00'),
+(19, 3, 3, 'Lavado externo de auto', '4.20', '8.40'),
+(20, 3, 4, 'Secado externo de auto', '4.50', '9.00'),
+(21, 3, 5, 'Aspirado de asientos de tela', '2.20', '4.40'),
+(22, 3, 6, 'Aspirado Auto completo', '5.10', '10.20'),
+(23, 3, 7, 'Ambientador económico', '0.35', '0.70'),
+(24, 3, 8, 'Ambientador premium', '1.20', '2.40'),
+(25, 4, 1, 'Limpieza de asientos y tablero', '3.50', '7.00'),
+(26, 4, 2, 'Quitamanchas en asientos de tela', '5.10', '10.20'),
+(27, 4, 3, 'Lavado externo de auto', '5.30', '10.60'),
+(28, 4, 4, 'Secado externo de auto', '5.30', '10.60'),
+(29, 4, 5, 'Aspirado de asientos de tela', '3.90', '7.80'),
+(30, 4, 6, 'Aspirado Auto completo', '7.20', '14.40'),
+(31, 4, 7, 'Ambientador económico', '0.35', '0.70'),
+(32, 4, 8, 'Ambientador premium', '1.20', '2.40'),
+(33, 5, 1, 'Limpieza de asientos y tablero', '4.50', '9.00'),
+(34, 5, 2, 'Quitamanchas en asientos de tela', '6.10', '12.20'),
+(35, 5, 3, 'Lavado externo de auto', '6.30', '12.60'),
+(36, 5, 4, 'Secado externo de auto', '6.30', '12.60'),
+(37, 5, 5, 'Aspirado de asientos de tela', '4.90', '9.80'),
+(38, 5, 6, 'Aspirado Auto completo', '8.20', '16.40'),
+(39, 5, 7, 'Ambientador económico', '0.35', '0.70'),
+(40, 5, 8, 'Ambientador premium', '1.20', '2.40'),
+(41, 6, 1, 'Limpieza de asientos y tablero', '6.30', '12.60'),
+(42, 6, 2, 'Quitamanchas en asientos de tela', '8.40', '16.80'),
+(43, 6, 3, 'Lavado externo de auto', '10.20', '20.40'),
+(44, 6, 4, 'Secado externo de auto', '10.20', '20.40'),
+(45, 6, 5, 'Aspirado de asientos de tela', '6.40', '12.80'),
+(46, 6, 6, 'Aspirado Auto completo', '9.45', '18.90'),
+(47, 6, 7, 'Ambientador económico', '0.35', '0.70'),
+(48, 6, 8, 'Ambientador premium', '1.20', '2.40')
+;
+
+INSERT INTO Venta(ID_VENTA, ID_AUTO, ID_SERVICIO, ID_EMPLEADO)
+VALUES
+(1, 1, 1, 2),
+(2, 1, 3, 2),
+(3, 1, 4, 2),
+(4, 1, 7, 2),
+(5, 2, 43, 1),
+(6, 2, 44, 1),
+(7, 2, 48, 1),
+(8, 3, 27, 2),
+(9, 3, 28, 2),
+(10, 3, 30, 2),
+(11, 4, 11, 2),
+(12, 4, 12, 2),
+(13, 4, 15, 2)
+;
 
 
