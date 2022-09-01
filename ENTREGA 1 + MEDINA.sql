@@ -229,4 +229,61 @@ VALUES
 (13, 4, 15, 2)
 ;
 
+CREATE VIEW AUTO_CLIENTE AS
+    SELECT 
+        A1.NOMBRE_CLIENTE cliente, B1.PLACA_AUTO auto
+    FROM
+        cliente A1,
+        auto B1
+    WHERE
+        A1.ID_CLIENTE = B1.ID_CLIENTE
+    GROUP BY A1.NOMBRE_CLIENTE;
 
+SELECT * FROM AUTO_CLIENTE
+
+CREATE VIEW SERVICIO_TIPO_UNO AS
+    SELECT 
+        DESCRIPCION_SERVICIO, PRECIO_TOTAL
+    FROM
+        servicio
+    WHERE
+        ID_TIPO = 1;
+
+SELECT * FROM SERVICIO_TIPO_UNO
+
+CREATE VIEW SERVICIOS_PREMIUM AS
+    SELECT 
+        ID_SERVICIO, DESCRIPCION_SERVICIO, PRECIO_TOTAL
+    FROM
+        servicio
+    WHERE
+        PRECIO_TOTAL >= 10;
+
+SELECT * FROM SERVICIOS_PREMIUM
+
+CREATE VIEW PROVEEDOR_ARGIMAX AS
+    SELECT 
+        producto.ID_PROVEEDOR,
+        producto.NOMBRE_PRODUCTO,
+        producto.CANTIDAD_PRODUCTO,
+        producto.PRECIO_PRODUCTO
+    FROM
+        producto
+            INNER JOIN
+        proveedor ON producto.ID_PROVEEDOR = proveedor.ID_PROVEEDOR
+    WHERE
+        proveedor.ID_PROVEEDOR = 2;
+
+SELECT * FROM PROVEEDOR_ARGIMAX
+
+CREATE VIEW HORARIO_RUBEN AS
+    SELECT 
+       horario.ID_EMPLEADO, horario.HORA_ENTRADA, horario.HORA_SALIDA
+    FROM
+        horario
+            INNER JOIN
+        empleado ON horario.ID_EMPLEADO = empleado.ID_EMPLEADO
+    WHERE
+        empleado.ID_EMPLEADO = 2;
+
+SELECT * FROM HORARIO_RUBEN
