@@ -348,6 +348,16 @@ TELEFONO_CLIENTE INT
 
 //creacion triggers 
 
+CREATE TABLE nuevos_clientes (
+id_cliente INT PRIMARY KEY,
+NOMBRE_CLIENTE VARCHAR (100),
+APELLIDO_CLIENTE VARCHAR (100),
+DIRECCION_CLIENTE VARCHAR (200),
+TELEFONO_CLIENTE INT
+);
+
+#agregar nuevo cliente en la tabla 'nuevos_clientes' y actualizacion en la tabla 'cliente'
+
 CREATE TRIGGER `agregar_nuevo_cliente`
 AFTER INSERT ON `cliente`
 FOR EACH ROW 
@@ -362,25 +372,22 @@ VALUES
 
 SELECT * FROM nuevos_clientes;
 
-CREATE TRIGGER `actualizar_precios_servicios`
-BEFORE UPDATE ON `servicio`
-FOR EACH ROW
-BEGIN
-  IF NEW.PRECIO_TOTAL <> OLD.PRECIO_TOTAL
-    THEN
-      SET NEW.PRECIO_TOTAL = NEW.COSTO_SERVICIO *2,
-  END IF;
-END;
-
+#actualizacion de la direccion del cliente en la tabla de 'cliente' con mensaje definido en el trigger
+DELIMITER $$
 CREATE TRIGGER `actualizar_direccion_cliente`
-BEFORE INSERT ON `cliente`
+BEFORE UPDATE ON `cliente`
 FOR EACH ROW
 BEGIN
- IF NEW.DIRECCION_CLIENTE <> cliente.DIRECCION_CLIENTE
+ IF NEW.DIRECCION_CLIENTE <> OLD.DIRECCION_CLIENTE
  THEN
  SET NEW.DIRECCION_CLIENTE = 'Valor introducido desde el Trigger';
  ELSE
  SET NEW.DIRECCION_CLIENTE= DIRECCION_CLIENTE;
  END IF;
-END
+END$$
+
+UPDATE cliente SET DIRECCION_CLIENTE = 'Paraguay 1530' WHERE id_cliente=5;
+UPDATE cliente SET DIRECCION_CLIENTE = 'Paraguay 1530' WHERE id_cliente=6;
+
+SELECT * FROM cliente;
 
