@@ -391,3 +391,45 @@ UPDATE cliente SET DIRECCION_CLIENTE = 'Paraguay 1530' WHERE id_cliente=6;
 
 SELECT * FROM cliente;
 
+#actualizacion de precios totales de los servicios, y del costo del servicio.
+DELIMITER $$
+CREATE TRIGGER `actualizar_precio_total_servicios`
+BEFORE UPDATE ON `servicio`
+FOR EACH ROW
+BEGIN
+  IF NEW.PRECIO_TOTAL <> OLD.PRECIO_TOTAL
+    THEN
+      SET NEW.PRECIO_TOTAL = NEW.COSTO_SERVICIO * 2;
+  END IF ;
+END$$
+
+UPDATE servicio SET PRECIO_TOTAL = 8.00 WHERE id_servicio=2;
+UPDATE servicio SET PRECIO_TOTAL = 8.00 WHERE id_servicio=4;
+UPDATE servicio SET PRECIO_TOTAL = 6.00 WHERE id_servicio=1;
+UPDATE servicio SET PRECIO_TOTAL = 6.00 WHERE id_servicio=5;
+UPDATE servicio SET PRECIO_TOTAL = 6.00 WHERE id_servicio=8;
+
+SELECT * FROM servicio;
+
+CREATE TABLE LOG_servicios (
+ACCION VARCHAR(200),
+DESCRIPCION VARCHAR (200),
+FECHA DATE
+);
+
+#Registro de LOG para la tabla de Servicios
+CREATE TRIGGER `registro_LOG`
+AFTER INSERT ON `servicio`
+FOR EACH ROW 
+INSERT INTO `LOG_servicios`(ACCION, DESCRIPCION, FECHA)
+VALUES ('Insert',NEW.DESCRIPCION_SERVICIO, NOW());
+
+INSERT into servicio (ID_SERVICIO, ID_TIPO, ID_PRODUCTO, DESCRIPCION_SERVICIO, COSTO_SERVICIO, PRECIO_TOTAL)
+VALUES 
+(52, 1, 4, 'Secado tapiceria', 3.00, 6.00),
+(53, 2, 5, 'Aspirado asientos traseros', 4.50, 9.00),
+(54, 3, 6, 'Lavado de neumaticos', 15.00, 30.00);
+
+SELECT * FROM LOG_servicios;
+DROP TRIGGER `registro_LOG`;
+SELECT * FROM servicio;
