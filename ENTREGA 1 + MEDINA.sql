@@ -433,3 +433,21 @@ VALUES
 SELECT * FROM LOG_servicios;
 DROP TRIGGER `registro_LOG`;
 SELECT * FROM servicio;
+
+USE MYSQL;
+
+#creacion de usuario 'normaluser' 
+CREATE USER 'normaluser@localhost' IDENTIFIED BY 'normaluser123.';
+SELECT * FROM mysql.user WHERE user LIKE 'normaluser'; 
+
+#asignacion de permiso de lectura para 'normaluser'
+GRANT SELECT ON *.* TO 'normaluser@localhost';
+SHOW GRANTS FOR 'normaluser@localhost';
+
+#creacion de usuario 'adminuser' 
+CREATE USER 'adminuser@localhost' IDENTIFIED BY 'adminuser123.';
+SELECT * FROM mysql.user WHERE user LIKE 'adminuser'; 
+
+#asignacion de permiso de lectura para 'adminuser'
+GRANT SELECT, INSERT, UPDATE ON *.* TO 'adminuser@localhost';
+SHOW GRANTS FOR 'adminuser@localhost';
