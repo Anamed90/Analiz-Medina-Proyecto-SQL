@@ -434,6 +434,8 @@ SELECT * FROM LOG_servicios;
 DROP TRIGGER `registro_LOG`;
 SELECT * FROM servicio;
 
+//sentencias
+
 USE MYSQL;
 
 #creacion de usuario 'normaluser' 
@@ -451,3 +453,40 @@ SELECT * FROM mysql.user WHERE user LIKE 'adminuser';
 #asignacion de permiso de lectura para 'adminuser'
 GRANT SELECT, INSERT, UPDATE ON *.* TO 'adminuser@localhost';
 SHOW GRANTS FOR 'adminuser@localhost';
+
+//transacciones
+
+#Transaccion 1, eliminando datos de la tabla servicios.
+START TRANSACTION;
+DELETE FROM 
+autolavado.servicio 
+WHERE
+    PRECIO_TOTAL= 30.00;
+
+#se elimina la transaccion realizada.
+ROLLBACK;
+
+#se confirma la transaccion realizada.
+COMMIT;
+
+#DATOS ELIMINADOS(1) 54	3	6	Lavado de neumaticos	15.00	30.00
+#DATOS ELIMINADOS(2) 51	3	6	Lavado de neumaticos	15.00	30.00
+
+SELECT * FROM autolavado.servicio
+order by PRECIO_TOTAL DESC;
+
+#Transaccion 2, insercion de datos en tabla auto.
+START TRANSACTION; 
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (7,'SWA900',5,3);
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (8,'RAA006',7,2);
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (9,'WAA45Z',5,1);
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (10,'SWA00P',4,6);
+savepoint lote_1;
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (11,'RAW66C',1,1);
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (12,'RHA001',3,6);
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (13,'DOG00H',7,3);
+INSERT INTO autolavado.auto (ID_AUTO, PLACA_AUTO,ID_CLIENTE,ID_TIPO) VALUES (14,'AAU54H',2,6);
+savepoint lote_2;
+
+#se elimina el lote_1 utilizando rollback
+ROLLBACK TO lote_1;
